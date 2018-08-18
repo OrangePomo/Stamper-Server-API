@@ -86,3 +86,26 @@ exports.streaming = (req, res, next) => {
     fs.createReadStream(path).pipe(res);
   }
 };
+
+exports.getVideo = (req, res, next) => {
+  Video.findById(req.params.videoId)
+        .exec((err, video) => {
+          if(err) return next(err);
+          const distance = Math.sqrt(Math.pow(req.params.longitude - video.geometry[0], 2) + Math.pow(req.params.latitude - video.geometry[1], 2));
+          return res.json({
+            "video" : video,
+            "distance" : distance
+          });
+        });
+};
+
+exports.getVideoList = (req, res, next) => {
+  Video.find({})
+      .select({
+        uid : 0, videoUrl : 0, like : 0, created : 0
+      })
+      .exec((err, videos) => {
+        if(err) return  next(err);
+        return res.json(videos);
+      });
+};
