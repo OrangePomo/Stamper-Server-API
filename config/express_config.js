@@ -18,7 +18,7 @@ module.exports = () => {
     extended:true
   }));
   app.use(bodyParser.json());
-  app.use(methodOverride());
+  app.use(methodOverride('_method'));
 
   require('../app/routes/users.server.routes.js')(app);
   require('../app/routes/videos.server.routes.js')(app);

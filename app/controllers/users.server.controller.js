@@ -2,6 +2,7 @@ const User = require('mongoose').model('User');
 
 exports.signup = (req, res, next) => {
   const user = new User(req.body);
+  user.profileUrl = 'http://localhost:3000/profile/'+user._id+'.png';
   user.save(err => {
     if(err) next(err);
     res.json(user);
@@ -9,17 +10,14 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  if(err)
-    return next(err);
-
-  if(!user){
+  if(!req.user){
     return res.json({
       "result" : false,
       "message" : "Unknown user"
     });
   }
 
-  if(!user.authenticate(password)){
+  if(!req.user.authenticate(req.body.password)){
     return res.json({
       "result" : false,
       "message" : "Invalid password"
@@ -28,7 +26,7 @@ exports.login = (req, res, next) => {
 
   return res.json({
     "result" : true,
-    "message" : user
+    "message" : req.user
   });
 };
 
