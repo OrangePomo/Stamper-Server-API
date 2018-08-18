@@ -10,6 +10,10 @@ const VideoSchema = new Schema({
     type : String,
     required : 'videoUrl is required'
   },
+  thumbnailUrl : {
+    type : String,
+    required : 'thumbnailUrl is required'
+  },
   like : {
     type : Number,
     default : 0
