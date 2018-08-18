@@ -1,30 +1,48 @@
-const mongoose = require('mongoose'),
-      Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const crypto = require('crypto');
 
 const UserSchema = new Schema({
   _id : {
     type : String,
-    trim : true
+    trim : true,
+    required : 'User ID is required'
   },
-  email : {
+  password : {
     type : String,
-    trim : true
+    validate : [
+      password => {
+        return password.length >= 8;
+      }, 'Password should be at least 8 characters'
+    ],
+    required : true
   },
-  name : {
-    type : String,
-    trim : true
+  salt : {
+    type : String
+  },
+  profileUrl : {
+    type : String
   },
   created : {
     type : Date,
     default : Date.now
   }
-}, {
-  versionKey : false,
-  usePushEach : true
+}, {versionKey : false});
+
+UserSchema.pre('save', next => {
+  if(this.password){
+    this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+    this.password = this.hashPassword(this.password);
+  }
+  next();
 });
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+UserSchema.methods.hashPassword = password => {
+  return crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('base64');
+};
 
-UserSchema.path('email').validate(email => emailRegex.test(email), 'Please fill a valid email address');
+UserSchema.methods.authenticate = password => {
+  return this.password === this.hashPassword(password);
+};
 
 mongoose.model('User', UserSchema);

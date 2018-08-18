@@ -9,6 +9,30 @@ exports.signup = (req, res, next) => {
   });
 };
 
+exports.login = (req, res, next) => {
+  if(err)
+    return next(err);
+
+  if(!user){
+    return res.json({
+      "result" : false,
+      "message" : "Unknown user"
+    });
+  }
+
+  if(!user.authenticate(password)){
+    return res.json({
+      "result" : false,
+      "message" : "Invalid password"
+    });
+  }
+
+  return res.json({
+    "result" : true,
+    "message" : user
+  });
+};
+
 exports.userByID = (req, res, next, id) => {
   User.findById(id, (err, user) => {
     if(err) return next(err);
