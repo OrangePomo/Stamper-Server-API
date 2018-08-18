@@ -24,11 +24,11 @@ const UserSchema = new Schema({
     type : String
   },
   videos : [{
-    type : Schema.Types.ObjectId,
+    type : String,
     ref : 'Video'
   }],
   likes : [{
-    type : Schema.Types.ObjectId,
+    type : String,
     ref : 'Video'
   }],
   created : {
