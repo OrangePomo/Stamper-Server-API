@@ -56,7 +56,7 @@ exports.upload = (req, res, next) => {
 
 exports.streaming = (req, res, next) => {
   const videoId = req.params.videoId;
-  const path = VIDEO_PATH+videoId+'.MOV';
+  const path = VIDEO_PATH+videoId;
   const vdSplit = videoId.split('.');
   const vdType = vdSplit[vdSplit.length-1];
   const stat = fs.statSync(path);
