@@ -6,10 +6,10 @@ const config = require('../../config/config');
 const HOST = 'http://localhost:';
 const SIZE = '71x71';
 
-const VIDEO_PATH = '../../public/videos/';
-const VIDEO_URL = HOST+config.SERVER_PORT+'/videos/';
-const THUMBNAIL_PATH = '../../public/thumbnails/';
-const THUMBNAIL_URL = HOST+config.SERVER_PORT+'thumbnails/';
+const VIDEO_PATH = './public/vd/';
+const VIDEO_URL = HOST+config.SERVER_PORT+'/vd/';
+const THUMBNAIL_PATH = './public/thumb/';
+const THUMBNAIL_URL = HOST+config.SERVER_PORT+'thumb/';
 
 exports.upload = (req, res, next) => {
   if (!req.file) {
@@ -82,8 +82,4 @@ exports.streaming = (req, res, next) => {
     res.writeHead(200, head);
     fs.createReadStream(path).pipe(res);
   }
-};
-
-exports.getThumbById = (req, res, next) => {
-
 };

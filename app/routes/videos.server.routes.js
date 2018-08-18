@@ -21,7 +21,4 @@ module.exports = app => {
 
   app.route('/video/:videoId')
     .get(videos.streaming);
-
-  app.route('/thumbnail/:videoId')
-    .get(videos.getThumbById);
 };

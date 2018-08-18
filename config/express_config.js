@@ -20,10 +20,11 @@ module.exports = () => {
   app.use(bodyParser.json());
   app.use(methodOverride());
 
-  app.use(express.static('./public'));
-
   require('../app/routes/users.server.routes.js')(app);
   require('../app/routes/videos.server.routes.js')(app);
+
+  app.use(express.static('./public'));
+
   require('./error_handler.js')(app);
 
   return app;
