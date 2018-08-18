@@ -24,7 +24,7 @@ exports.upload = (req, res, next) => {
     const latitude = req.body.latitude+0;
     video.geometry.unshift(longitude);
     video.geometry.unshift(latitude);
-    video.videoUrl = VIDEO_URL+req.file.path;
+    video.videoUrl = VIDEO_URL+'/'+req.file.path.split('/')[1];
 
     const tg = new ThumbnailGenerator({
       sourcePath: req.file.path,
