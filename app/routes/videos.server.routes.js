@@ -20,6 +20,9 @@ module.exports = app => {
   app.route('/video')
     .post(upload.single('videoFile'), videos.upload);
 
+  app.route('/video/:videoId')
+    .put(videos.addLike);
+
   app.route('/video/info/:videoId/:longitude/:latitude')
     .get(videos.getVideo);
 

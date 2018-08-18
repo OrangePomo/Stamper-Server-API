@@ -109,3 +109,15 @@ exports.getVideoList = (req, res, next) => {
         return res.json(videos);
       });
 };
+
+exports.addLike = (req, res, next) => {
+  Video.findById(req.params.videoId)
+      .exec((err, video) => {
+        if(err) return next(err);
+        video.like = video.like + 1;
+        video.save(err => {
+          if(err) return next(err);
+          return res.json(video.like);
+        });
+      });
+};
