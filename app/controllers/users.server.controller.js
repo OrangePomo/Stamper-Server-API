@@ -1,5 +1,4 @@
 const User = require('mongoose').model('User');
-const config = require('../../config/config');
 
 exports.signup = (req, res, next) => {
   const user = new User(req.body);

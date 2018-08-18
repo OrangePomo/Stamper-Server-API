@@ -15,7 +15,7 @@ const UserSchema = new Schema({
         return password.length >= 8;
       }, 'Password should be at least 8 characters'
     ],
-    required : true
+    required : 'Password is required'
   },
   salt : {
     type : String
@@ -23,11 +23,22 @@ const UserSchema = new Schema({
   profileUrl : {
     type : String
   },
+  videos : [{
+    type : Schema.Types.ObjectId,
+    ref : 'Video'
+  }],
+  likes : [{
+    type : Schema.Types.ObjectId,
+    ref : 'Video'
+  }],
   created : {
     type : Date,
     default : Date.now
   }
-}, {versionKey : false});
+}, {
+  versionKey : false,
+  usePushEach: true
+});
 
 UserSchema.pre('save', next => {
   if(this.password){
