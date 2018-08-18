@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const VideoSchema = new Schema({
   user : {
     type : String,
+    ref : 'User',
     required : 'User is required'
   },
   videoUrl : {
@@ -19,8 +20,7 @@ const VideoSchema = new Schema({
     default : 0
   },
   geometry : [{
-    type : Number,
-    required : 'geometry is required'
+    type : Number
   }],
   created : {
     type : Date,

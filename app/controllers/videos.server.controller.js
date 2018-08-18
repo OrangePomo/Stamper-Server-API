@@ -20,6 +20,10 @@ exports.upload = (req, res, next) => {
   } else {
     console.log('video received');
     const video = new Video(req.body);
+    const longitude = req.body.longitude+0;
+    const latitude = req.body.latitude+0;
+    video.geometry.unshift(longitude);
+    video.geometry.unshift(latitude);
     video.videoUrl = VIDEO_URL+req.file.path;
 
     console.log('videoUrl: '+video.videoUrl);
