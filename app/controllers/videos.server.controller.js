@@ -35,7 +35,7 @@ exports.upload = (req, res, next) => {
       size: SIZE
     },(err, result) => {
       if(err) return next(err);
-      video.thumbnailUrl = result;
+      video.thumbnailUrl = THUMBNAIL_URL+result;
       video.save(err => {
         if(err) return next(err);
         User.updateOne({
