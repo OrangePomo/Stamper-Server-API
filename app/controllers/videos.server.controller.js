@@ -40,8 +40,8 @@ exports.upload = (req, res, next) => {
       video.thumbnailUrl = result;
       video.save(err => {
         if(err) return next(err);
-        User.update({
-          _id : uid
+        User.updateOne({
+          _id : req.body.uid
         }, {
           $addToSet: {videos : video._id}
         }, (err, result) => {
