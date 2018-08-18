@@ -1,10 +1,15 @@
 const Video = require('mongoose').model('Video');
 const User = require('mongoose').model('User');
 const fs = require('fs');
+const ThumbnailGenerator = require('video-thumbnail-generator').default;
 const config = require('../../config/config');
+const HOST = 'http://localhost:';
+const SIZE = '71x71';
 
 const VIDEO_PATH = '../../public/videos/';
-const VIDEO_URL = 'http://localhost:'+config.SERVER_PORT+'/videos/';
+const VIDEO_URL = HOST+config.SERVER_PORT+'/videos/';
+const THUMBNAIL_PATH = '../../public/thumbnails/';
+const THUMBNAIL_URL = HOST+config.SERVER_PORT+'thumbnails/';
 
 exports.upload = (req, res, next) => {
   if (!req.file) {
@@ -16,16 +21,30 @@ exports.upload = (req, res, next) => {
     console.log('video received');
     const video = new Video(req.body);
     video.videoUrl = VIDEO_URL+req.file.path;
-    video.save(err => {
+
+    console.log('videoUrl: '+video.videoUrl);
+
+    const tg = new ThumbnailGenerator({
+      sourcePath: '../../public/videos/'+req.file.path,
+      thumbnailPath: '../../public/thumbnails/',
+      tmpDir: '../../public/tmp'
+    });
+    tg.generateOneByPercentCb(20, {
+      size: SIZE
+    },(err, result) => {
       if(err) return next(err);
-      User.update({
-        _id : uid
-      }, {
-        $addToSet: {videos : video._id}
-      }, (err, result) => {
+      video.thumbnailUrl = result;
+      video.save(err => {
         if(err) return next(err);
-        return res.json({
-          "result" : true
+        User.update({
+          _id : uid
+        }, {
+          $addToSet: {videos : video._id}
+        }, (err, result) => {
+          if(err) return next(err);
+          return res.json({
+            "result" : true
+          });
         });
       });
     });
@@ -65,11 +84,6 @@ exports.streaming = (req, res, next) => {
   }
 };
 
-exports.videoByID = (req, res, next, id) => {
-  Video.findById(id, (err, video) => {
-    if(err) return next(err);
-    if(!video) req.video = null;
-    else req.video = video;
-    next();
-  });
+exports.getThumbById = (req, res, next) => {
+
 };
