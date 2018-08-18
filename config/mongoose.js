@@ -11,6 +11,7 @@ module.exports = () => {
     });
 
     require('../app/models/user.server.model.js');
+    require('../app/models/video.server.model.js');
 
     return db;
 }

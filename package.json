@@ -9,9 +9,11 @@
     "compression": "^1.7.3",
     "crypto": "^1.0.1",
     "express": "~4.16.0",
+    "fs": "0.0.1-security",
     "method-override": "^3.0.0",
     "mongoose": "^5.2.9",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "multer": "^1.3.1"
   },
   "devDependencies": {
     "color": "latest"
