@@ -6,9 +6,9 @@ const config = require('../../config/config');
 const HOST = 'http://localhost:';
 const SIZE = '71x71';
 
-const VIDEO_PATH = './public/vd/';
-const VIDEO_URL = HOST+config.SERVER_PORT+'/vd/';
-const THUMBNAIL_PATH = './public/thumb/';
+const VIDEO_PATH = './vd/';
+const VIDEO_URL = HOST+config.SERVER_PORT;
+const THUMBNAIL_PATH = './thumb/';
 const THUMBNAIL_URL = HOST+config.SERVER_PORT+'thumb/';
 
 exports.upload = (req, res, next) => {
@@ -26,8 +26,8 @@ exports.upload = (req, res, next) => {
 
     const tg = new ThumbnailGenerator({
       sourcePath: req.file.path,
-      thumbnailPath: '../../public/thumb/',
-      tmpDir: '../../public/tmp'
+      thumbnailPath: './thumb/',
+      tmpDir: './tmp'
     });
     tg.generateOneByPercentCb(20, {
       size: SIZE
