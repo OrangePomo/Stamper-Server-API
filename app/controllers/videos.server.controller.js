@@ -25,7 +25,7 @@ exports.upload = (req, res, next) => {
     console.log('videoUrl: '+video.videoUrl);
 
     const tg = new ThumbnailGenerator({
-      sourcePath: '../../public/vd/'+req.file.path,
+      sourcePath: req.file.path,
       thumbnailPath: '../../public/thumb/',
       tmpDir: '../../public/tmp'
     });
