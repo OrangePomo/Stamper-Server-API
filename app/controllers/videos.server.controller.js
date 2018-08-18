@@ -25,8 +25,8 @@ exports.upload = (req, res, next) => {
     console.log('videoUrl: '+video.videoUrl);
 
     const tg = new ThumbnailGenerator({
-      sourcePath: '../../public/videos/'+req.file.path,
-      thumbnailPath: '../../public/thumbnails/',
+      sourcePath: '../../public/vd/'+req.file.path,
+      thumbnailPath: '../../public/thumb/',
       tmpDir: '../../public/tmp'
     });
     tg.generateOneByPercentCb(20, {
