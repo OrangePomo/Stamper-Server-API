@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const VideoSchema = new Schema({
-  user : {
+  uid : {
     type : String,
     ref : 'User',
     required : 'User is required'
