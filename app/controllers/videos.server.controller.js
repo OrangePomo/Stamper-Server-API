@@ -7,9 +7,9 @@ const HOST = 'http://localhost:';
 const SIZE = '71x71';
 
 const VIDEO_PATH = './vd/';
-const VIDEO_URL = HOST+config.SERVER_PORT;
+const VIDEO_URL = HOST+config.SERVER_PORT+'/';
 const THUMBNAIL_PATH = './thumb/';
-const THUMBNAIL_URL = HOST+config.SERVER_PORT+'thumb/';
+const THUMBNAIL_URL = HOST+config.SERVER_PORT+'/thumb/';
 
 exports.upload = (req, res, next) => {
   if (!req.file) {
@@ -25,8 +25,6 @@ exports.upload = (req, res, next) => {
     video.geometry.unshift(longitude);
     video.geometry.unshift(latitude);
     video.videoUrl = VIDEO_URL+req.file.path;
-
-    console.log('videoUrl: '+video.videoUrl);
 
     const tg = new ThumbnailGenerator({
       sourcePath: req.file.path,
