@@ -26,8 +26,8 @@ exports.upload = (req, res, next) => {
 
     const tg = new ThumbnailGenerator({
       sourcePath: req.file.path,
-      thumbnailPath: './thumb/',
-      tmpDir: './tmp'
+      thumbnailPath: './public/thumb/',
+      tmpDir: './public/tmp'
     });
     tg.generateOneByPercentCb(20, {
       size: SIZE
