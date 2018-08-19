@@ -6,7 +6,7 @@ const config = require('../../config/config');
 const HOST = 'http://localhost:';
 const SIZE = '71x71';
 
-const VIDEO_PATH = '.public/vd/';
+const VIDEO_PATH = './public/vd/';
 const VIDEO_URL = HOST+config.SERVER_PORT+'/';
 const THUMBNAIL_PATH = './thumb/';
 const THUMBNAIL_URL = HOST+config.SERVER_PORT+'/thumb/';
