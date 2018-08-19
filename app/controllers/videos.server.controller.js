@@ -93,7 +93,11 @@ exports.getVideo = (req, res, next) => {
         .populate('uid', {password : 0, salt : 0, videos : 0, likes : 0, created : 0})
         .exec((err, video) => {
           if(err) return next(err);
-          const dist = distance(req.params.latitude+0, video.geometry[1], req.params.longitude+0, video.geometry[1]);
+          const lat1 = req.params.latitude*1;
+          const lon1 = req.params.longitude*1;
+          const lat2 = video.geometry[1];
+          const lon2 = video.geometry[0];
+          const dist = distance(lat1,lon1,lat2,lon2);
           return res.json({
             "video" : video,
             "distance" : dist
