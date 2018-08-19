@@ -6,7 +6,7 @@ const config = require('../../config/config');
 const HOST = 'http://localhost:';
 const SIZE = '71x71';
 
-const VIDEO_PATH = './vd/';
+const VIDEO_PATH = '.public/vd/';
 const VIDEO_URL = HOST+config.SERVER_PORT+'/';
 const THUMBNAIL_PATH = './thumb/';
 const THUMBNAIL_URL = HOST+config.SERVER_PORT+'/thumb/';
@@ -112,6 +112,15 @@ exports.getVideoList = (req, res, next) => {
       });
 };
 
+exports.getVideoAll= (req, res, next) => {
+  Video.find({})
+    .populate('uid')
+    .exec((err, videos) => {
+      if(err) return next(err);
+      return res.json(videos);
+    });
+};
+
 exports.addLike = (req, res, next) => {
   Video.findById(req.params.videoId)
       .exec((err, video) => {
@@ -122,4 +131,14 @@ exports.addLike = (req, res, next) => {
           return res.json(video.like);
         });
       });
+};
+
+exports.deleteAll = (req, res, next) => {
+  Video.remove({}, err => {
+    if(err) return next(err);
+    res.json({
+      "result" : true,
+      "message" : "delete all videos"
+    });
+  });
 };

@@ -30,11 +30,33 @@ exports.login = (req, res, next) => {
   });
 };
 
+exports.userList = (req, res, next) => {
+  User.find({})
+    .exec((err, users) => {
+      if(err) return next(err);
+      return res.json(users);
+    });
+};
+
+exports.getUser = (req, res, next) => {
+  return res.json(req.user);
+};
+
 exports.userByID = (req, res, next, id) => {
   User.findById(id, (err, user) => {
     if(err) return next(err);
     if(!user) req.user = null;
     else req.user = user;
     next();
+  });
+};
+
+exports.deleteAll = (req, res, next) => {
+  User.remove({}, err => {
+    if(err) return next(err);
+    res.json({
+      "result" : true,
+      "message" : "delete all users"
+    });
   });
 };

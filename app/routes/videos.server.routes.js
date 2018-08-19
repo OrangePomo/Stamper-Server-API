@@ -18,7 +18,9 @@ const upload = multer({ storage: storage });
 
 module.exports = app => {
   app.route('/video')
-    .post(upload.single('videoFile'), videos.upload);
+    .post(upload.single('videoFile'), videos.upload)
+    .get(videos.getVideoAll)
+    .delete(videos.deleteAll);
 
   app.route('/video/:videoId')
     .put(videos.addLike);
