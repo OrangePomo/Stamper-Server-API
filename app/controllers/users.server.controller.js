@@ -2,7 +2,7 @@ const User = require('mongoose').model('User');
 
 exports.signup = (req, res, next) => {
   const user = new User(req.body);
-  user.profileUrl = 'http://localhost:3000/profile/'+user._id+'.png';
+  user.profileUrl = 'http://52.79.250.237:3000/profile/'+user._id+'.png';
   user.save(err => {
     if(err) next(err);
     res.json(user);
