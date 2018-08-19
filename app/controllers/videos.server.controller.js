@@ -24,7 +24,7 @@ exports.upload = (req, res, next) => {
     const latitude = req.body.latitude+0;
     video.geometry.unshift(longitude);
     video.geometry.unshift(latitude);
-    video._id = req.file.path.split('/')[2];
+    video._id = req.file.path.split('\\')[2];
     video.videoUrl = VIDEO_URL+'vd/'+video._id;
 
     const tg = new ThumbnailGenerator({
@@ -46,7 +46,8 @@ exports.upload = (req, res, next) => {
         }, (err, result) => {
           if(err) return next(err);
           return res.json({
-            "result" : true
+            "result" : true,
+            "videoId" : video._id
           });
         });
       });
@@ -92,13 +93,28 @@ exports.getVideo = (req, res, next) => {
         .populate('uid', {password : 0, salt : 0, videos : 0, likes : 0, created : 0})
         .exec((err, video) => {
           if(err) return next(err);
-          const distance = Math.sqrt(Math.pow(req.params.longitude - video.geometry[0], 2) + Math.pow(req.params.latitude - video.geometry[1], 2));
+          const dist = distance(req.params.latitude+0, video.geometry[1], req.params.longitude+0, video.geometry[1]);
           return res.json({
             "video" : video,
-            "distance" : distance
+            "distance" : dist
           });
         });
 };
+
+function distance(lat1, lon1, lat2, lon2) {
+	let radlat1 = Math.PI * lat1/180
+	let radlat2 = Math.PI * lat2/180
+	let theta = lon1-lon2
+	let radtheta = Math.PI * theta/180
+	let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+	if (dist > 1) {
+		dist = 1;
+	}
+	dist = Math.acos(dist)
+	dist = dist * 180/Math.PI
+	dist = dist * 60 * 1.1515
+	return dist
+}
 
 exports.getVideoList = (req, res, next) => {
   Video.find({})
