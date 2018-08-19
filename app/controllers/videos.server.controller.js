@@ -89,6 +89,7 @@ exports.streaming = (req, res, next) => {
 
 exports.getVideo = (req, res, next) => {
   Video.findById(req.params.videoId)
+        .populate('uid', {password : 0, salt : 0, videos : 0, likes : 0, created : 0})
         .exec((err, video) => {
           if(err) return next(err);
           const distance = Math.sqrt(Math.pow(req.params.longitude - video.geometry[0], 2) + Math.pow(req.params.latitude - video.geometry[1], 2));
@@ -104,6 +105,7 @@ exports.getVideoList = (req, res, next) => {
       .select({
         uid : 0, videoUrl : 0, like : 0, created : 0
       })
+      .sort({created : -1})
       .exec((err, videos) => {
         if(err) return  next(err);
         return res.json(videos);
