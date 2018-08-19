@@ -3,7 +3,7 @@ const User = require('mongoose').model('User');
 const fs = require('fs');
 const ThumbnailGenerator = require('video-thumbnail-generator').default;
 const config = require('../../config/config');
-const HOST = 'http://localhost:';
+const HOST = 'http://52.79.250.237:';
 const SIZE = '71x71';
 
 const VIDEO_PATH = './public/vd/';
